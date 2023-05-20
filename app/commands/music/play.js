@@ -22,8 +22,10 @@ module.exports = {
         try {
             const { track } = await interaction.client.player.play(channel, query, {
                 nodeOptions: {
-                    metadata: interaction
-                }
+                    metadata: interaction,
+                    leaveOnEmpty: false,
+                    leaveOnEnd: false,
+                },
             });
 
             return interaction.followUp(`**${track.title}** enqueued!`);
