@@ -4,8 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "docker build -t broken-gm . && docker run -ip 3000:3000 broken-gm",
-		"node": "node app/updateCommands.js && node app/index.js"
+		"build": "docker build -t broken-gm .",
+		"docker": "docker run -ip 3000:3000 broken-gm",
+		"start": "node app/updateCommands.js && node app/index.js"
 	},
 	"license": "MIT",
 	"dependencies": {

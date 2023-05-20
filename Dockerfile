@@ -1,5 +1,5 @@
 # FROM ubuntu:22.04
-FROM node:16
+FROM node:16-alpine
 
 # Install Node and Its Dependencies
 # USER root
@@ -15,6 +15,10 @@ FROM node:16
 # RUN apt-get install -y ffmpeg
 # RUN pip3 install SpeechRecognition
 # RUN pip3 install pydub
+
+# Install ffmpeg and Python
+RUN apk add --update --no-cache python3
+RUN apk add --no-cache ffmpeg
 
 # Start The Bot
 COPY ./app .env package*.json ./
