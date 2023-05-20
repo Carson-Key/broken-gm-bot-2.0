@@ -12,7 +12,7 @@ module.exports = {
 	async execute(interaction) {
 		const channel = interaction.member.voice.channel;
         if (!channel) {
-            await interaction.reply('You are not connected to a voice channel!');
+            await interaction.reply('You are not in a voice channel');
             return
         }
 
@@ -28,7 +28,7 @@ module.exports = {
                 },
             });
 
-            return interaction.followUp(`**${track.title}** enqueued!`);
+            return interaction.followUp(`Queue: **${track.title}**`);
         } catch (e) {
             return interaction.followUp(`Something went wrong: ${e}`);
         }

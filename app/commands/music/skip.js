@@ -8,7 +8,7 @@ module.exports = {
         const queue = interaction.client.player.nodes.get(interaction.guild.id)
 
         if (!queue) {
-            await interaction.reply('There nothing urrently playing');
+            await interaction.reply('There nothing currently playing');
         }
         
         queue.node.skip();
