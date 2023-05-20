@@ -1,0 +1,18 @@
+{
+	"name": "broken-gm-bot",
+	"version": "0.0.1",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "docker build -t broken-gm . && docker run -ip 3000:3000 broken-gm",
+		"node": "node app/updateCommands.js && node app/index.js"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"crypto-js": "^4.1.1",
+		"discord.js": "^14.8.0",
+		"dotenv": "^16.0.2",
+		"firebase": "^9.19.1",
+		"moment": "^2.29.3"
+	}
+}
