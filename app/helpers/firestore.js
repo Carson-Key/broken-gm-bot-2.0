@@ -1,9 +1,9 @@
 // Packages
-const { doc, getDoc, setDoc, deleteDoc } = require("firebase/firestore"); 
+import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore"; 
 // Firebase
-const { db } = require('./firebase');
+import { db } from './firebase';
 
-async function getDocument(collection, document, returnErrorCode = false) {
+export async function getDocument(collection, document, returnErrorCode = false) {
 	try {
 		const userDoc = doc(db, collection, document)
 		const userDBEntry = await getDoc(userDoc)
@@ -22,7 +22,7 @@ async function getDocument(collection, document, returnErrorCode = false) {
 		}
 	}
 }
-async function setDocument(collection, document, dataToAdd, documentExsists = true) {
+export async function setDocument(collection, document, dataToAdd, documentExsists = true) {
 	try {
 		const userDoc = doc(db, collection, document)
 
@@ -33,7 +33,7 @@ async function setDocument(collection, document, dataToAdd, documentExsists = tr
 		// fireBaseError(setNotification, error.code, error.message)
 	}
 }
-async function updateDocument(collection, document, dataToAdd, documentExsists = true) {
+export async function updateDocument(collection, document, dataToAdd, documentExsists = true) {
 	try {
 		const userDoc = doc(db, collection, document)
 
@@ -44,7 +44,7 @@ async function updateDocument(collection, document, dataToAdd, documentExsists =
 		// fireBaseError(setNotification, error.code, error.message)
 	}
 }
-async function updateDocumentWithPromise(collection, document, dataToAdd, documentExsists = true) {
+export async function updateDocumentWithPromise(collection, document, dataToAdd, documentExsists = true) {
 	try {
 		const userDoc = doc(db, collection, document)
 
@@ -59,7 +59,7 @@ async function updateDocumentWithPromise(collection, document, dataToAdd, docume
 		}
 	}
 }
-async function deleteDocument(collection, document, documentExsists = true) {
+export async function deleteDocument(collection, document, documentExsists = true) {
 	try {
 		const userDoc = doc(db, collection, document)
 
@@ -70,7 +70,7 @@ async function deleteDocument(collection, document, documentExsists = true) {
 		// fireBaseError(setNotification, error.code, error.message)
 	}
 }
-async function deleteDocumentWithPromise(collection, document, documentExsists = true) {
+export async function deleteDocumentWithPromise(collection, document, documentExsists = true) {
 	try {
 		const userDoc = doc(db, collection, document)
 
@@ -85,10 +85,3 @@ async function deleteDocumentWithPromise(collection, document, documentExsists =
 		}
 	}
 }
-
-module.exports.getDocument = getDocument
-module.exports.setDocument = setDocument
-module.exports.updateDocument = updateDocument
-module.exports.updateDocumentWithPromise = updateDocumentWithPromise
-module.exports.deleteDocument = deleteDocument
-module.exports.deleteDocumentWithPromise = deleteDocumentWithPromise

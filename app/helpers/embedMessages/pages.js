@@ -1,6 +1,6 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
-const pages = async (interaction, pagesArray, defaultPageGenerator) => {
+export const pages = async (interaction, pagesArray, defaultPageGenerator) => {
     const nextButton = new ButtonBuilder()
         .setCustomId('next')
         .setLabel('Next')
@@ -56,5 +56,3 @@ const pages = async (interaction, pagesArray, defaultPageGenerator) => {
         }
     })
 }
-
-module.exports.pages = pages

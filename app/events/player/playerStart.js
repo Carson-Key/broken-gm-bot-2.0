@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "playerStart",
 	async execute(client) {
 		const queue = client.player.nodes.get(client.guild.id)

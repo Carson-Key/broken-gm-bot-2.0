@@ -1,9 +1,13 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const { Events } = require('discord.js');
-const { Player } = require('discord-player');
+import fs from 'node:fs';
+import path from 'node:path';
+import { Events } from 'discord.js';
+import { Player } from 'discord-player';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
 	name: Events.ClientReady,
 	once: true,
 	async execute(client) {
@@ -17,7 +21,7 @@ module.exports = {
 
 		for (const file of playerEventFiles) {
 			const filePath = path.join(playerEventsPath, file);
-			const event = require(filePath);
+			const event = (await import(filePath)).default;
 			client.player.events.on(event.name, (...args) => event.execute(...args));
 		}
 

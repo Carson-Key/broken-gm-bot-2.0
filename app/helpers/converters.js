@@ -1,4 +1,4 @@
-const objectOfObjectsToArrayOfObjects = (objectOfObjects) => {
+export const objectOfObjectsToArrayOfObjects = (objectOfObjects) => {
     let returnArray = []
 
     Object.keys(objectOfObjects).forEach((objectOfObject) => {
@@ -7,7 +7,7 @@ const objectOfObjectsToArrayOfObjects = (objectOfObjects) => {
 
     return returnArray
 }
-const objectOfObjectsToArrayOfObjectsForPages = (objectOfObjects) => {
+export const objectOfObjectsToArrayOfObjectsForPages = (objectOfObjects) => {
     let returnArray = []
 
     Object.keys(objectOfObjects).forEach((objectOfObject) => {
@@ -16,6 +16,3 @@ const objectOfObjectsToArrayOfObjectsForPages = (objectOfObjects) => {
 
     return returnArray
 }
-
-module.exports.objectOfObjectsToArrayOfObjects = objectOfObjectsToArrayOfObjects
-module.exports.objectOfObjectsToArrayOfObjectsForPages = objectOfObjectsToArrayOfObjectsForPages
