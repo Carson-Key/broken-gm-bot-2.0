@@ -16,7 +16,7 @@ export const pages = async (interaction, pagesArray, defaultPageGenerator) => {
 
     let currentPage = 0
     const messageObject = await interaction.reply({
-        embeds: pagesArray[currentPage].generatePage ? [await pagesArray[currentPage].generatePage(pagesArray[currentPage].data)] : [await defaultPageGenerator(pagesArray[currentPage].data)],
+        embeds: pagesArray[currentPage].generatePage ? [await pagesArray[currentPage].generatePage(pagesArray[currentPage])] : [await defaultPageGenerator(pagesArray[currentPage])],
         components: pagesArray.length > 1 ? [buttonRow] : [],
         ephemeral: true
     });
@@ -43,13 +43,13 @@ export const pages = async (interaction, pagesArray, defaultPageGenerator) => {
 
         if (pagesArray[currentPage].generatePage) {
             await interaction.update({
-                embeds: [await pagesArray[currentPage].generatePage(pagesArray[currentPage].data)],
+                embeds: [await pagesArray[currentPage].generatePage(pagesArray[currentPage])],
                 components: [buttonRow],
                 ephemeral: true
             })
         } else {
             await interaction.update({
-                embeds: [await defaultPageGenerator(pagesArray[currentPage].data)],
+                embeds: [await defaultPageGenerator(pagesArray[currentPage])],
                 components: [buttonRow],
                 ephemeral: true
             })
