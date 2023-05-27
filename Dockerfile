@@ -21,8 +21,11 @@ RUN apk add --update --no-cache python3
 RUN apk add --no-cache ffmpeg
 
 # Start The Bot
-COPY ./app .env package*.json ./
+COPY ./main .env package*.json ./main/
+COPY ./characters .env package*.json ./characters/
+COPY ./index.js ./
 RUN npm i
-RUN node updateCommands.js
+RUN node ./main/updateCommands.js
+RUN node ./characters/updateCommands.js
 CMD ["node", "index.js"]
 EXPOSE 3000

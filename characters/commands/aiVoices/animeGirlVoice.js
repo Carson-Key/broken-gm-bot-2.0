@@ -10,32 +10,26 @@ const __dirname = path.dirname(__filename);
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('play-voice')
-		.setDescription('Has the bot say the text you provided in the voice of your choice')
-        .addStringOption(option =>
-			option
-				.setName('voice-id')
-				.setRequired(true)
-				.setDescription('The ID of the voice you want spoken'))
+		.setName('anime-girl-voice')
+		.setDescription('Has the bot say the text you provided in an anime girls\'s voice')
         .addStringOption(option =>
 			option
 				.setName('text')
 				.setRequired(true)
-				.setDescription('The text you want Knox to say')),
+				.setDescription('The text you want the anime girl to say')),
 	async execute(interaction) {
         const text = interaction.options.getString('text', true);
-        const voiceId = interaction.options.getString('voice-id', true);
-        const fileName = path.join(__dirname, 'custom-voice.mp3')
+        const fileName = path.join(__dirname, 'anime-girl.mp3')
 
         const res = await axios({
 			method: 'POST',
-			url: `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`,
+			url: `https://api.elevenlabs.io/v1/text-to-speech/FlO6X7dwvuIXITz4AqFf/stream`,
 			data: {
                 "text": `${text}`,
                 "model_id": "eleven_monolingual_v1",
                 "voice_settings": {
-                    "stability": 0.75,
-                    "similarity_boost": 0.75
+                    "stability": 0.60,
+                    "similarity_boost": 0.80
                 }
             },
 			headers: {
