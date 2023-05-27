@@ -48,7 +48,7 @@ export default {
             return
         }
 
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         try {
             const { track } = await interaction.client.player.play(channel, fileName, {
@@ -60,11 +60,9 @@ export default {
                 },
             });
 
-            return interaction.followUp(`Queue: **${track.title}**`);
+            return interaction.followUp({ content: `**Having German Mario say:** ${text}`, ephemeral: true});
         } catch (e) {
-            return interaction.followUp(`Something went wrong: ${e}`);
+            return interaction.followUp({ content: `Something went wrong: ${e}`, ephemeral: true});
         }
-
-		await interaction.reply({ content: `**Having Knox say:** ${text}`, ephemeral: true});
 	},
 };
