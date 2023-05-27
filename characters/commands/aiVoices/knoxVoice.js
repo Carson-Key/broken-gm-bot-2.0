@@ -5,6 +5,7 @@ import path from 'node:path';
 import axios from 'axios';
 import { QueryType } from 'discord-player';
 import { v4 as uuidv4 } from 'uuid';
+import { pipeline } from 'node:stream/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +22,14 @@ export default {
 	async execute(interaction) {
         const text = interaction.options.getString('text', true);
         const fileName = path.join(__dirname, 'mp3s', `knox-${uuidv4()}.mp3`)
+
+        const channel = interaction.member.voice.channel;
+        if (!channel) {
+            await interaction.reply('You are not in a voice channel');
+            return
+        }
+
+        await interaction.deferReply({ ephemeral: true });
 
         const res = await axios({
 			method: 'POST',
@@ -40,15 +49,7 @@ export default {
 			},
 			responseType: 'stream'
 		});
-        res.data.pipe(fs.createWriteStream(fileName))
-        
-        const channel = interaction.member.voice.channel;
-        if (!channel) {
-            await interaction.reply('You are not in a voice channel');
-            return
-        }
-
-        await interaction.deferReply({ ephemeral: true });
+        await pipeline(res.data, fs.createWriteStream(fileName))
 
         try {
             const { track } = await interaction.client.player.play(channel, fileName, {
@@ -62,7 +63,8 @@ export default {
 
             return interaction.followUp({ content: `**Having Knox say:** ${text}`, ephemeral: true});
         } catch (e) {
-            return interaction.followUp({ content: `Something went wrong: ${e}`, ephemeral: true});
+            console.error(`Bad: ${e}`)
+            return interaction.followUp({ content: `Something went wrong`, ephemeral: true});
         }
 	},
 };
