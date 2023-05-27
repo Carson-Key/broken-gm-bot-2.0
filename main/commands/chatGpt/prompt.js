@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('propmt')
+		.setName('prompt')
 		.setDescription('Will send your prompt to chat gpt').addStringOption(option =>
 			option
 				.setName('prompt')
