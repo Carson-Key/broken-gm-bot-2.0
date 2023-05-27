@@ -16,7 +16,7 @@ export default {
         try {
             const completion = await interaction.client.openai.createChatCompletion({
                 model: "gpt-3.5-turbo",
-                messages: [{role: "user", content: `${prompt}, in 5000 characters or less`}],
+                messages: [{role: "user", content: `${prompt}, in 2500 characters or less`}],
             });
 
             const message = completion.data.choices[0].message.content
