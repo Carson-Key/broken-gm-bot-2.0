@@ -3,6 +3,7 @@ import path from 'node:path';
 import { Events } from 'discord.js';
 import { Player } from 'discord-player';
 import { fileURLToPath } from 'url';
+import { Configuration, OpenAIApi } from "openai";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +30,14 @@ export default {
 		if (!fs.existsSync(mp3s)){
 			fs.mkdirSync(mp3s);
 		}
+
+		const configuration = new Configuration({
+			organization: process.env.CHAT_GPT_ORG_ID,
+			apiKey: process.env.CHAT_GPT_SECRET_KEY,
+		});
+		const openai = new OpenAIApi(configuration);
+
+		client.openai = openai
 
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 	},
