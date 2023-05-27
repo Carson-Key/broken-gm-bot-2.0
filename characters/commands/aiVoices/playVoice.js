@@ -36,6 +36,8 @@ export default {
         const voiceId = interaction.options.getString('voice-id', true);
         const stability = interaction.options.getNumber('stability')
         const similarity = interaction.options.getNumber('similarity')
+        const stabilityValue = stability ? stability : 0.75
+        const similarityValue = similarity ? similarity : 0.75
         const fileName = path.join(__dirname, 'mp3s', `custom-voice-${uuidv4()}.mp3`)
 
         const res = await axios({
@@ -45,8 +47,8 @@ export default {
                 "text": `${text}`,
                 "model_id": "eleven_monolingual_v1",
                 "voice_settings": {
-                    "stability": stability ? stability : 0.75,
-                    "similarity_boost": similarity ? similarity : 0.75
+                    "stability": stabilityValue,
+                    "similarity_boost": similarityValue
                 }
             },
 			headers: {
