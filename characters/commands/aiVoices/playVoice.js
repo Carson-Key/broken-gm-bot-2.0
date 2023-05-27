@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import axios from 'axios';
 import { QueryType } from 'discord-player';
+import { v4 as uuidv4 } from 'uuid';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,9 +34,9 @@ export default {
 	async execute(interaction) {
         const text = interaction.options.getString('text', true);
         const voiceId = interaction.options.getString('voice-id', true);
-        const stability = interaction.options.getInteger('stability')
-        const similarity = interaction.options.getInteger('similarity')
-        const fileName = path.join(__dirname, 'custom-voice.mp3')
+        const stability = interaction.options.getNumber('stability')
+        const similarity = interaction.options.getNumber('similarity')
+        const fileName = path.join(__dirname, 'mp3s', `custom-voice-${uuidv4()}.mp3`)
 
         const res = await axios({
 			method: 'POST',

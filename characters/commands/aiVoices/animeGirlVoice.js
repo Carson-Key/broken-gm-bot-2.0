@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import axios from 'axios';
 import { QueryType } from 'discord-player';
+import { v4 as uuidv4 } from 'uuid';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +20,7 @@ export default {
 				.setDescription('The text you want the anime girl to say')),
 	async execute(interaction) {
         const text = interaction.options.getString('text', true);
-        const fileName = path.join(__dirname, 'anime-girl.mp3')
+        const fileName = path.join(__dirname, 'mp3s', `anime-girl-${uuidv4()}.mp3`)
 
         const res = await axios({
 			method: 'POST',
