@@ -25,6 +25,11 @@ export default {
 			client.player.events.on(event.name, (...args) => event.execute(...args));
 		}
 
+		const mp3s = path.join(__dirname, '..', 'commands', 'aiVoices', 'mp3s');
+		if (!fs.existsSync(mp3s)){
+			fs.mkdirSync(mp3s);
+		}
+
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 	},
 };
