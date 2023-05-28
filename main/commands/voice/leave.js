@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
+import { getVoiceConnection } from '@discordjs/voice';
 
 export default {
 	data: new SlashCommandBuilder()
@@ -11,8 +12,10 @@ export default {
             return
         }
 
-        if (interaction.client.currentConnections[channel.guild.id]) {
-            interaction.client.currentConnections[channel.guild.id].destroy();
+        const connection = getVoiceConnection(interaction.guild.id)
+
+        if (connection) {
+            connection.destroy();
         } else {
             await interaction.reply('The bot is not in a channel');
             return

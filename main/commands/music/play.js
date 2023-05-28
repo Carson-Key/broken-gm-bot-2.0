@@ -25,6 +25,7 @@ export default {
                     metadata: interaction,
                     leaveOnEmpty: false,
                     leaveOnEnd: false,
+                    selfDeaf: false
                 },
             });
 

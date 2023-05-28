@@ -11,18 +11,13 @@ export default {
             await interaction.reply('You are not in a voice channel');
             return
         }
-
-        if (interaction.client.currentConnections[channel.guild.id]) {
-            await interaction.reply('The bot is already in a channel');
-            return
-        } else {
-            interaction.client.currentConnections[channel.guild.id] = joinVoiceChannel({
-                channelId: channel.id,
-                guildId: channel.guild.id,
-                adapterCreator: channel.guild.voiceAdapterCreator,
-                selfDeaf: false
-            });
-        }
+        
+        joinVoiceChannel({
+            channelId: channel.id,
+            guildId: channel.guild.id,
+            adapterCreator: channel.guild.voiceAdapterCreator,
+            selfDeaf: false
+        });
 
 		await interaction.reply({ content: 'Joined!', ephemeral: true});
 	},
