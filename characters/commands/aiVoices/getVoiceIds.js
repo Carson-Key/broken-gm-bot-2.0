@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { pages } from '../../helpers/embedMessages/pages.js';
+import { pages } from '../../../helpers/embedMessages/pages.js';
 
 const generateVoicePage = async (data) => {
     return new EmbedBuilder()
