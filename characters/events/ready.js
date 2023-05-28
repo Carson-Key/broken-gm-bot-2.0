@@ -4,6 +4,7 @@ import { Events } from 'discord.js';
 import { Player } from 'discord-player';
 import { fileURLToPath } from 'url';
 import { Configuration, OpenAIApi } from "openai";
+import appRoot from 'app-root-path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,7 +27,7 @@ export default {
 			client.player.events.on(event.name, (...args) => event.execute(...args));
 		}
 
-		const mp3s = path.join(__dirname, '..', 'commands', 'aiVoices', 'mp3s');
+		const mp3s = path.join(appRoot.path, 'mp3s');
 		if (!fs.existsSync(mp3s)){
 			fs.mkdirSync(mp3s);
 		}

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { QueryType } from 'discord-player';
 import { v4 as uuidv4 } from 'uuid';
 import { pipeline } from 'node:stream/promises';
+import animeGirlVoice from '../../../helpers/voices/animeGirl.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,7 +22,6 @@ export default {
 				.setDescription('The prompt you want to put through chat gpt 3.5 turbo')),
 	async execute(interaction) {
         const prompt = interaction.options.getString('prompt', true);
-        const fileName = path.join(__dirname, 'mp3s', `anime-girl-prompt-${uuidv4()}.mp3`)
 
         const channel = interaction.member.voice.channel;
         if (!channel) {
@@ -50,26 +50,7 @@ export default {
             return interaction.followUp({ content: `Something went wrong`});
         }
 
-        const res = await axios({
-            method: 'POST',
-            url: `https://api.elevenlabs.io/v1/text-to-speech/FlO6X7dwvuIXITz4AqFf/stream`,
-            data: {
-                "text": `${message}`,
-                "model_id": "eleven_monolingual_v1",
-                "voice_settings": {
-                    "stability": 0.60,
-                    "similarity_boost": 0.80
-                }
-            },
-            headers: {
-                'Accept': 'audio/mpeg',
-                'xi-api-key': process.env.ELEVENLABS_KEY,
-                'Content-Type': 'application/json',
-            },
-            responseType: 'stream'
-        });
-
-        await pipeline(res.data, fs.createWriteStream(fileName))
+        const fileName = await animeGirlVoice(message)
 
         try {
             const { track } = await interaction.client.player.play(channel, fileName, {
@@ -81,7 +62,7 @@ export default {
                 },
             });
 
-            return interaction.followUp({ content: `**Having Voice ${voiceId} say:** ${text}`, ephemeral: true});
+            return interaction.followUp({ content: `**Having Anime Girl say:** ${message}`, ephemeral: true});
         } catch (e) {
             console.error(`Bad: ${e}`)
             return interaction.followUp({ content: `Something went wrong`, ephemeral: true});
