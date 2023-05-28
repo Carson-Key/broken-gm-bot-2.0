@@ -33,6 +33,7 @@ export default {
 		const openai = new OpenAIApi(configuration);
 
 		client.openai = openai
+		client.currentConnections = {}
 
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 	},
