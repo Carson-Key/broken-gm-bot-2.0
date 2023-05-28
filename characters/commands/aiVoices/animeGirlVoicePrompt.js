@@ -1,11 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { fileURLToPath } from 'url';
-import fs from 'node:fs';
 import path from 'node:path';
-import axios from 'axios';
 import { QueryType } from 'discord-player';
-import { v4 as uuidv4 } from 'uuid';
-import { pipeline } from 'node:stream/promises';
 import animeGirlVoice from '../../../helpers/voices/animeGirl.js';
 
 const __filename = fileURLToPath(import.meta.url);
