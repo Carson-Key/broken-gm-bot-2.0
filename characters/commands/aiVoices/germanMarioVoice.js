@@ -1,14 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { fileURLToPath } from 'url';
-import fs from 'node:fs';
-import path from 'node:path';
-import axios from 'axios';
 import { QueryType } from 'discord-player';
-import { v4 as uuidv4 } from 'uuid';
-import { pipeline } from 'node:stream/promises';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import germanMarioVoice from '../../../helpers/voices/germanMario.js';
 
 export default {
 	data: new SlashCommandBuilder()
@@ -21,7 +13,6 @@ export default {
 				.setDescription('The text you want Knox to say')),
 	async execute(interaction) {
         const text = interaction.options.getString('text', true);
-        const fileName = path.join(__dirname, 'mp3s', `german-mario-${uuidv4()}.mp3`)
 
         const channel = interaction.member.voice.channel;
         if (!channel) {
@@ -31,25 +22,7 @@ export default {
 
         await interaction.deferReply({ ephemeral: true });
 
-        const res = await axios({
-			method: 'POST',
-			url: `https://api.elevenlabs.io/v1/text-to-speech/j9jnXcYTprJBiRnYU55H/stream`,
-			data: {
-                "text": `hello I am German Mario, ${text}`,
-                "model_id": "eleven_monolingual_v1",
-                "voice_settings": {
-                    "stability": 0.60,
-                    "similarity_boost": 0.90
-                }
-            },
-			headers: {
-				'Accept': 'audio/mpeg',
-				'xi-api-key': process.env.ELEVENLABS_KEY,
-				'Content-Type': 'application/json',
-			},
-			responseType: 'stream'
-		});
-        await pipeline(res.data, fs.createWriteStream(fileName))
+        const fileName = await germanMarioVoice(text)
 
         try {
             const { track } = await interaction.client.player.play(channel, fileName, {
