@@ -31,7 +31,8 @@ export default {
 
             return interaction.followUp(`Queue: **${track.title}**`);
         } catch (e) {
-            return interaction.followUp(`Something went wrong: ${e}`);
+            console.log(`${e}`)
+            return interaction.followUp(`Something went wrong`);
         }
 	},
 };
