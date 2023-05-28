@@ -1,14 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { fileURLToPath } from 'url';
-import fs from 'node:fs';
-import path from 'node:path';
-import axios from 'axios';
 import { QueryType } from 'discord-player';
-import { v4 as uuidv4 } from 'uuid';
-import { pipeline } from 'node:stream/promises';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import customVoice from '../../../helpers/voices/custom.js';
 
 export default {
 	data: new SlashCommandBuilder()
@@ -37,9 +29,6 @@ export default {
         const voiceId = interaction.options.getString('voice-id', true);
         const stability = interaction.options.getNumber('stability')
         const similarity = interaction.options.getNumber('similarity')
-        const stabilityValue = stability ? stability : 0.75
-        const similarityValue = similarity ? similarity : 0.75
-        const fileName = path.join(__dirname, 'mp3s', `custom-voice-${uuidv4()}.mp3`)
 
         const channel = interaction.member.voice.channel;
         if (!channel) {
@@ -49,26 +38,7 @@ export default {
 
         await interaction.deferReply({ ephemeral: true });
 
-        const res = await axios({
-            method: 'POST',
-            url: `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`,
-            data: {
-                "text": `${text}`,
-                "model_id": "eleven_monolingual_v1",
-                "voice_settings": {
-                    "stability": stabilityValue,
-                    "similarity_boost": similarityValue
-                }
-            },
-            headers: {
-                'Accept': 'audio/mpeg',
-                'xi-api-key': process.env.ELEVENLABS_KEY,
-                'Content-Type': 'application/json',
-            },
-            responseType: 'stream'
-        });
-
-        await pipeline(res.data, fs.createWriteStream(fileName))
+        const fileName = await customVoice(voiceId, text, stability, similarity)
 
         try {
             const { track } = await interaction.client.player.play(channel, fileName, {
