@@ -23,6 +23,7 @@ RUN apk add --no-cache ffmpeg
 # Start The Bot
 COPY ./main ./main/
 COPY ./characters ./characters/
+COPY ./helpers ./helpers
 COPY ./app .env package*.json ./
 RUN npm i
 RUN node updateCommands.js
