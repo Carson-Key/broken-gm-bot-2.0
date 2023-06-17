@@ -9,6 +9,11 @@ import WavFileWriter from 'wav'
 const wavWriter = WavFileWriter.FileWriter;
 import appRoot from 'app-root-path';
 import { v4 as uuidv4 } from 'uuid';
+import child from 'child_process'
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default {
 	data: new SlashCommandBuilder()
@@ -61,29 +66,28 @@ export default {
                     if (wavFileStream) {
                         wavFileStream.end();
                     }
-                    const transcript = await interaction.client.openai.createTranscription(
-                        fs.createReadStream(fileName),
-                        "whisper-1"
-                    );
 
-                    const dateObject = new Date();
-                    const date = (`0 ${dateObject.getDate()}`).slice(-2);
-                    const month = (`0 ${dateObject.getMonth() + 1}`).slice(-2);
-                    const year = dateObject.getFullYear();
-                    const hours = dateObject.getHours();
-                    const minutes = dateObject.getMinutes();
-                    const seconds = dateObject.getSeconds();
+                    let transcribeScript = child.spawn("node", [
+                        path.join(__dirname, '..', '..', '..', 'bin', 'openAiTranscribe.js'),
+                        fileName
+                    ]);
+                    transcribeScript.stderr.on('data', function(data) {
+                        console.log(data);
+                    });
+                    transcribeScript.stdout.on('data', (data) => {
+                        const dateObject = new Date();
+                        const date = (`0 ${dateObject.getDate()}`).slice(-2);
+                        const month = (`0 ${dateObject.getMonth() + 1}`).slice(-2);
+                        const year = dateObject.getFullYear();
+                        const hours = dateObject.getHours();
+                        const minutes = dateObject.getMinutes();
+                        const seconds = dateObject.getSeconds();
+                        const log = data.toString();
 
-                    if (transcript.data.text && transcript.data.text !== "" && transcript.data.text !== '.') {
-                        interaction.channel.send(`[${year}-${month}-${date} ${hours}:${minutes}:${seconds}] <@${userId}>: ${transcript.data.text}`)
-                    }
+                        console.log(log)
 
-                    fs.unlink(fileName, (err) => {
-                        if (err) {
-                            console.error(err)
-                            return
-                        }
-                    })
+                        interaction.channel.send(`[${year}-${month}-${date} ${hours}:${minutes}:${seconds}] <@${userId}>: ${log}`)
+                    });
                 }); 
             }
         });
