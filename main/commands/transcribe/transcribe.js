@@ -72,7 +72,7 @@ export default {
                         fileName
                     ]);
                     transcribeScript.stderr.on('data', function(data) {
-                        console.log(data);
+                        console.log("Error: ", data);
                     });
                     transcribeScript.stdout.on('data', (data) => {
                         const dateObject = new Date();
@@ -83,8 +83,6 @@ export default {
                         const minutes = dateObject.getMinutes();
                         const seconds = dateObject.getSeconds();
                         const log = data.toString();
-
-                        console.log(log)
 
                         interaction.channel.send(`[${year}-${month}-${date} ${hours}:${minutes}:${seconds}] <@${userId}>: ${log}`)
                     });
