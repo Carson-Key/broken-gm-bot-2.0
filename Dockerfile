@@ -19,7 +19,7 @@ FROM node:16-alpine
 # Install ffmpeg and Python
 # RUN apk add --update --no-cache --virtual python3
 RUN apk add g++ make py3-pip
-RUN apk add --no-cache --virtual ffmpeg
+RUN apk add --no-cache ffmpeg
 
 # Start The Bot
 COPY ./main ./main/
