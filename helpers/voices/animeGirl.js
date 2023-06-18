@@ -15,8 +15,8 @@ const animeGirlVoice = async (text) => {
             "text": `${text}`,
             "model_id": "eleven_monolingual_v1",
             "voice_settings": {
-                "stability": 0.60,
-                "similarity_boost": 0.80
+                "stability": 0.55,
+                "similarity_boost": 0.45
             }
         },
         headers: {
