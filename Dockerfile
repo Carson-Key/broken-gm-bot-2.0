@@ -17,8 +17,9 @@ FROM node:16-alpine
 # RUN pip3 install pydub
 
 # Install ffmpeg and Python
-RUN apk add --update --no-cache python3
-RUN apk add --no-cache ffmpeg
+# RUN apk add --update --no-cache --virtual python3
+RUN apk add g++ make py3-pip
+RUN apk add --no-cache --virtual ffmpeg
 
 # Start The Bot
 COPY ./main ./main/
